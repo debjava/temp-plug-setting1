@@ -1,0 +1,1 @@
+rootProject.name = "temp-plug-setting1"

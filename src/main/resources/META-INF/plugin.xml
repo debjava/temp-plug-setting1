@@ -1,0 +1,56 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.ddlab.rnd.temp-plug-setting1</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+    <name>Temp-plug-setting1</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+    <description><![CDATA[
+        <b>My Plugin</b><br>
+    Helps developers generate boilerplate code automatically and improves workflow.
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+
+        <applicationService
+                serviceImplementation="com.ddlab.rnd.setting.MyPluginSettings"/>
+
+        <applicationConfigurable
+                id="com.example.settings"
+                displayName="My Plugin Settings"
+                instance="com.ddlab.rnd.setting.MyPluginConfigurable"/>
+
+<!--        <toolWindow-->
+<!--                id="MyPluginConsole"-->
+<!--                anchor="bottom"-->
+<!--                factoryClass="com.ddlab.rnd.console.MyConsoleToolWindowFactory"-->
+<!--                icon="AllIcons.Debugger.Console"-->
+<!--                canCloseContents="false"/>-->
+
+    </extensions>
+    <actions>
+        <action id="MyPlugin.MyCustomEditorAction"
+                class="com.ddlab.rnd.action.MyCustomEditorAction"
+                text="My Custom Editor Action"
+                description="Performs a custom action in the editor">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+
+
+
+
+</idea-plugin>
