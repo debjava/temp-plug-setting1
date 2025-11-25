@@ -1,9 +1,15 @@
 package com.ddlab.rnd.group.panel;
 
+import com.ddlab.rnd.setting.util.BasicUiUtil;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+@Getter
+@Setter
 public class AiDetailsPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -21,6 +29,7 @@ public class AiDetailsPanel extends JPanel {
 	private JTextField oauthEndPointTxt;
 	private JTextField llmApiEndPointTxt;
 	private JTextField textField;
+    private JComboBox<String> llmModelcomboBox;
 	
 	public AiDetailsPanel() {
 		
@@ -94,7 +103,7 @@ public class AiDetailsPanel extends JPanel {
 		gbc_llmModelLbl.gridy = 3;
 		add(llmModelLbl, gbc_llmModelLbl);
 		
-		JComboBox<String> llmModelcomboBox = new JComboBox<String>();
+		llmModelcomboBox = new JComboBox<String>();
 		GridBagConstraints gbc_llmModelcomboBox = new GridBagConstraints();
 		gbc_llmModelcomboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_llmModelcomboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -102,14 +111,22 @@ public class AiDetailsPanel extends JPanel {
 		gbc_llmModelcomboBox.gridy = 3;
 		add(llmModelcomboBox, gbc_llmModelcomboBox);
 		
-		JButton btnNewButton = new JButton("Get Models");
+		JButton llmModelGetBtn = new JButton("Get Models");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.gridwidth = 2;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 3;
-		add(btnNewButton, gbc_btnNewButton);
+		add(llmModelGetBtn, gbc_btnNewButton);
+
+        llmModelGetBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                llmModelcomboBox.removeAllItems(); // clear existing items
+                populateLLMModels();
+            }
+        });
 		
 		JLabel llmApiEndPointLbl = new JLabel("LLM Api EndPoint:");
 		GridBagConstraints gbc_llmApiEndPointLbl = new GridBagConstraints();
@@ -151,5 +168,15 @@ public class AiDetailsPanel extends JPanel {
 		
 
 	}
+
+    private void populateLLMModels() {
+        String clientId = clientIdTxt.getText();
+        String clientSecret = clientSecretTxt.getText();
+
+        java.util.List<String> llmComboItems = BasicUiUtil.getLLMModels(clientId, clientSecret);
+        for (String comboItem : llmComboItems) {
+            llmModelcomboBox.addItem(comboItem);
+        }
+    }
 
 }

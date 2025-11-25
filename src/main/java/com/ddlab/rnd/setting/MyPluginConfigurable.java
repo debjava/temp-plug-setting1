@@ -1,5 +1,7 @@
 package com.ddlab.rnd.setting;
 
+import com.ddlab.rnd.group.panel.AiDetailsPanel;
+import com.ddlab.rnd.group.panel.SnykDetailsPanel;
 import com.ddlab.rnd.setting.ui.MySettingComponent;
 import com.ddlab.rnd.setting.ui.MySettingComponent1;
 import com.intellij.openapi.options.Configurable;
@@ -43,7 +45,21 @@ public class MyPluginConfigurable implements Configurable {
     public boolean isModified() {
         MyPluginSettings settings = MyPluginSettings.getInstance();
 
-        return true;
+        // For AI Panel
+        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+
+
+        // For Snyk Panel
+        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+
+
+        return !aiPanel.getClientIdTxt().equals(settings.getClientIdStr())
+
+//                || aiPanel.getLlmModelcomboBox().getSelectedItem().equals(settings.getLlmModelComboSelection())
+                || snykPanel.getSnykUriTxt().getText().equals(settings.getSnykUriTxt());
+//                || snykPanel.getOrgNameComboBox().getSelectedItem().equals(settings.getSnykOrgComboSelection());
+
+//        return true;
 
 //        return !component.getClientIdTxt().equals(settings.getClientIdStr())
 //                || !component.getClientSecretTxt().equals(settings.getClientSecretStr())
@@ -56,7 +72,31 @@ public class MyPluginConfigurable implements Configurable {
     public void apply() {
         MyPluginSettings settings = MyPluginSettings.getInstance();
 
+        // AI Part
+        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+        settings.setClientIdStr(aiPanel.getClientIdTxt().getText());
 
+//        JComboBox<String> llmModelComboBox = aiPanel.getLlmModelcomboBox();
+//        java.util.List<String> allLlmModelComboItems = getComboBoxItems(llmModelComboBox);
+//        if (!allLlmModelComboItems.isEmpty()) {
+//            settings.setLlmModelComboItems(allLlmModelComboItems);
+//            settings.setLlmModelComboSelection((String) llmModelComboBox.getSelectedItem());
+//        }
+
+
+        // Snyk Part
+        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+        settings.setSnykUriTxt(snykPanel.getSnykUriTxt().getText());
+
+//        JComboBox<String> snykOrgComboBox = snykPanel.getOrgNameComboBox();
+//        java.util.List<String> snykOrgComboItems = getComboBoxItems(snykOrgComboBox);
+//        if (!snykOrgComboItems.isEmpty()) {
+//            settings.setSnykOrgComboItems(snykOrgComboItems);
+//            settings.setSnykOrgComboSelection((String) snykOrgComboBox.getSelectedItem());
+//        }
+
+
+//        settings.setSnykOrgComboItems( (String) snykPanel.getOrgNameComboBox().getSelectedItem());
 //        JComboBox llmModelComboBox = component.getLlmModelComboBox();
 //
 //        settings.setClientIdStr(component.getClientIdTxt().getText());
@@ -74,6 +114,34 @@ public class MyPluginConfigurable implements Configurable {
     public void reset() {
         MyPluginSettings settings = MyPluginSettings.getInstance();
 
+        // For AI
+        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+        aiPanel.getClientIdTxt().setText(settings.getClientIdStr());
+
+
+//        JComboBox<String> llmModelComboBox = aiPanel.getLlmModelcomboBox();
+//        java.util.List<String> llmModelComboItems = settings.getLlmModelComboItems();
+//        if(!llmModelComboItems.isEmpty()) {
+//            llmModelComboItems.forEach(value -> llmModelComboBox.addItem(value));
+//            llmModelComboBox.setSelectedItem(settings.getLlmModelComboSelection());
+//        }
+
+        // For Snyk
+        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+        snykPanel.getSnykUriTxt().setText(settings.getSnykUriTxt());
+
+//        JComboBox<String> snykOrgNameComboBox = snykPanel.getOrgNameComboBox();
+//        java.util.List<String> snykOrgComboItems = settings.getSnykOrgComboItems();
+//        if(!snykOrgComboItems.isEmpty()) {
+//            //        snykOrgNameComboBox.removeAllItems();
+//            snykOrgComboItems.forEach(value -> snykOrgNameComboBox.addItem(value));
+//            snykOrgNameComboBox.setSelectedItem(settings.getSnykOrgComboSelection());
+//        }
+
+
+
+
+
 //        component.getClientIdTxt().setText(settings.getClientIdStr());
 //        component.getClientSecretTxt().setText(settings.getClientSecretStr());
 //        component.getOauthEndPointTxt().setText(settings.getOauthEndPointUri());
@@ -88,7 +156,7 @@ public class MyPluginConfigurable implements Configurable {
     }
 
     public static List<String> getComboBoxItems(JComboBox<String> comboBox) {
-        ComboBoxModel<?> model = comboBox.getModel();
+        ComboBoxModel<String> model = comboBox.getModel();
         List<String> items = new ArrayList<>();
 
         for (int i = 0; i < model.getSize(); i++) {

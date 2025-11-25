@@ -3,10 +3,13 @@ package com.ddlab.rnd.setting;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import com.intellij.util.xmlb.XmlSerializerUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.LinkedList;
 
 @State(
         name = "MyPluginSettings",
@@ -18,9 +21,16 @@ public class MyPluginSettings implements PersistentStateComponent<MyPluginSettin
     private String clientIdStr;
     private String clientSecretStr;
     private String oauthEndPointUri;
-    private String comboSelection = "";
-    private java.util.List<String> comboItems;
+    private String llmModelComboSelection;
+    private java.util.List<String> llmModelComboItems;
     private String llmApiEndPointUri;
+
+    // Snyk details
+    private String snykUriTxt;
+    private String snykTokentxt;
+//    private java.util.List snykOrgComboItems = new LinkedList<>();
+    private String snykOrgComboSelection;
+
 
     public static MyPluginSettings getInstance() {
         return com.intellij.openapi.application.ApplicationManager
@@ -36,13 +46,20 @@ public class MyPluginSettings implements PersistentStateComponent<MyPluginSettin
 
     @Override
     public void loadState(@NotNull MyPluginSettings state) {
+//        XmlSerializerUtil.copyBean(state, this);
         this.clientIdStr = state.clientIdStr;
         this.clientSecretStr = state.clientSecretStr;
         this.oauthEndPointUri = state.oauthEndPointUri;
 
-        this.comboItems = state.comboItems;
-        this.comboSelection = state.comboSelection;
+        this.llmModelComboItems = state.llmModelComboItems;
+        this.llmModelComboSelection = state.llmModelComboSelection;
         this.llmApiEndPointUri = state.llmApiEndPointUri;
+
+        // For Snyk
+        this.snykUriTxt = state.snykUriTxt;
+        this.snykTokentxt = state.snykTokentxt;
+//        this.snykOrgComboItems = state.snykOrgComboItems;
+//        this.snykOrgComboSelection = state.snykOrgComboSelection;
     }
 
 }

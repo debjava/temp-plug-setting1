@@ -22,4 +22,9 @@ public class BasicUiUtil {
         java.util.List<String> comboItems = List.of("Option A", "Option B", "Option C");
         return comboItems;
     }
+
+    public static List<String> getOrgNames() {
+        java.util.List<String> comboItems = List.of("Org-A", "Org-B", "Org-C","Org-D","Org-E");
+        return comboItems;
+    }
 }

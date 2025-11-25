@@ -13,6 +13,9 @@ import java.awt.*;
 public class MySettingComponent1 {
 
     private JPanel mainPanel;
+    private JPanel aiDetailsPanel;
+    private JPanel snykPanel;
+
 
     public MySettingComponent1() {
         mainPanel = new JPanel();
@@ -24,7 +27,7 @@ public class MySettingComponent1 {
         gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
         mainPanel.setLayout(gridBagLayout);
 
-        JPanel aiDetailsPanel = new AiDetailsPanel();
+        aiDetailsPanel = new AiDetailsPanel();
         GridBagConstraints gbc_aiDetailsPanel = new GridBagConstraints();
         gbc_aiDetailsPanel.insets = new Insets(0, 0, 5, 0);
         gbc_aiDetailsPanel.fill = GridBagConstraints.BOTH;
@@ -41,7 +44,7 @@ public class MySettingComponent1 {
         mainPanel.add(commonInfoLbl, gbc_commonInfoLbl);
 
 
-        JPanel snykPanel = new SnykDetailsPanel();
+        snykPanel = new SnykDetailsPanel();
         GridBagConstraints gbc_snykPanel = new GridBagConstraints();
         gbc_snykPanel.fill = GridBagConstraints.BOTH;
         gbc_snykPanel.gridx = 0;

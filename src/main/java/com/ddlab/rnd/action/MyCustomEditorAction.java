@@ -22,7 +22,7 @@ import com.intellij.psi.PsiFile;
             System.out.println("Text : "+text);
 
             MyPluginSettings setting = MyPluginSettings.getInstance();
-            String selectedComboItem = setting.getComboSelection();
+            String selectedComboItem = setting.getLlmModelComboSelection();
             System.out.println("Selected Combo Item: "+selectedComboItem);
 
             String clientSecret = setting.getClientSecretStr();

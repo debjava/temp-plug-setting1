@@ -1,8 +1,14 @@
 package com.ddlab.rnd.group.panel;
 
+import com.ddlab.rnd.setting.util.BasicUiUtil;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,9 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+@Getter
+@Setter
 public class SnykDetailsPanel extends JPanel {
 	private JTextField snykUriTxt;
 	private JTextField snykTokentxt;
+    private JComboBox<String> orgNameComboBox;
 
 	public SnykDetailsPanel() {
 		setBorder(new TitledBorder(null, "Snyk Details", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -67,7 +76,7 @@ public class SnykDetailsPanel extends JPanel {
 		gbc_orgNameLbl.gridy = 2;
 		add(orgNameLbl, gbc_orgNameLbl);
 
-		JComboBox<String> orgNameComboBox = new JComboBox<String>();
+		orgNameComboBox = new JComboBox<String>();
 		GridBagConstraints gbc_orgNameComboBox = new GridBagConstraints();
 		gbc_orgNameComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_orgNameComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -75,11 +84,26 @@ public class SnykDetailsPanel extends JPanel {
 		gbc_orgNameComboBox.gridy = 2;
 		add(orgNameComboBox, gbc_orgNameComboBox);
 
-		JButton btnNewButton = new JButton("Get Orgs");
+		JButton snykOrgGetBtn = new JButton("Get Orgs");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 2;
-		add(btnNewButton, gbc_btnNewButton);
+		add(snykOrgGetBtn, gbc_btnNewButton);
+
+        snykOrgGetBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                orgNameComboBox.removeAllItems(); // clear existing items
+                populateOrgNames();
+            }
+        });
 	}
+
+    private void populateOrgNames() {
+        java.util.List<String> llmComboItems = BasicUiUtil.getOrgNames();
+        for (String comboItem : llmComboItems) {
+            orgNameComboBox.addItem(comboItem);
+        }
+    }
 
 }
