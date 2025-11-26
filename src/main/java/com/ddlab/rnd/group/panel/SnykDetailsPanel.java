@@ -1,6 +1,6 @@
 package com.ddlab.rnd.group.panel;
 
-import com.ddlab.rnd.setting.util.BasicUiUtil;
+import com.ddlab.rnd.setting.ui.util.BasicUiUtil;
 import lombok.Getter;
 import lombok.Setter;
 

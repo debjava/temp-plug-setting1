@@ -1,10 +1,9 @@
 package com.ddlab.rnd.group.panel;
 
-import com.ddlab.rnd.setting.util.BasicUiUtil;
+import com.ddlab.rnd.setting.ui.util.BasicUiUtil;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,7 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 @Getter

@@ -1,25 +1,30 @@
 package com.ddlab.rnd.action;
 
+import com.ddlab.rnd.console.MyPluginConsoleManager;
 import com.ddlab.rnd.setting.MyPluginSettings;
+import com.intellij.execution.ui.ConsoleView;
+import com.intellij.execution.ui.ConsoleViewContentType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.PsiFile;
+import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentManager;
 
 // Example AnAction implementation
     public class MyCustomEditorAction extends AnAction {
         @Override
         public void actionPerformed(AnActionEvent e) {
 
-            PsiFile file = e.getData(CommonDataKeys.PSI_FILE);
 
-            String fileType = file.getFileType().getName();
-            System.out.println("File Type: "+fileType);
-
-            String text = file.getFileDocument().getText();
-            System.out.println("Text : "+text);
+            //Print to Console
+            Project project = e.getProject();
+            if (project == null) return;
 
             MyPluginSettings setting = MyPluginSettings.getInstance();
             String selectedComboItem = setting.getLlmModelComboSelection();
@@ -28,22 +33,62 @@ import com.intellij.psi.PsiFile;
             String clientSecret = setting.getClientSecretStr();
             System.out.println("Client Secret: "+clientSecret);
 
+//            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("com.ddlab.rnd.temp-plug-setting1"); // Use the ID from plugin.xml
+//            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Temp-plug-setting1");
+            ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow("MyPluginConsole");
+            System.out.println("ToolWindow: "+toolWindow);
+            if (toolWindow != null) {
+                // Ensure the tool window is visible if it's not already
+//                toolWindow.activate(null, true);
 
-//            MySettingsState settings = MySettingsState.getInstance();
+                ConsoleView consoleView = MyPluginConsoleManager.getConsoleView(project);
+                System.out.println("Consolview: "+consoleView);
+                if (consoleView != null) {
+                    consoleView.print("Appending new message to console!\n", ConsoleViewContentType.NORMAL_OUTPUT);
+                    consoleView.print("Selected Combo Item: "+selectedComboItem+"\n", ConsoleViewContentType.NORMAL_OUTPUT);
+                    consoleView.print("Client Secret: "+clientSecret+"\n", ConsoleViewContentType.NORMAL_OUTPUT);
+                    toolWindow.activate(null); // Activate the tool window to show the output
+                }
 
-//            boolean enabled = settings.enableFeature;
-//            String endpoint = settings.apiEndpoint;
 
-//            System.out.println("Enabled: "+enabled);
-//            System.out.println("End Point: "+endpoint);
+//                ContentManager contentManager = toolWindow.getContentManager();
+//                // Find the content containing your ConsoleView (assuming it's the first one)
+//                Content content = contentManager.getContent(0); // Or iterate to find by display name
+//
+//                if (content != null && content.getComponent() instanceof ConsoleView) {
+//                    ConsoleView consoleView = (ConsoleView) content.getComponent();
+//                    consoleView.print("Message from MyPluginAction!\n", ConsoleViewContentType.NORMAL_OUTPUT);
+//                }
+            }
+
+
+
+            // End pf printing to console
+
+            PsiFile file = e.getData(CommonDataKeys.PSI_FILE);
+
+            String fileType = file.getFileType().getName();
+            System.out.println("File Type: "+fileType);
+
+            String text = file.getFileDocument().getText();
+//            System.out.println("Text : "+text);
+
+//            MyPluginSettings setting = MyPluginSettings.getInstance();
+//            String selectedComboItem = setting.getLlmModelComboSelection();
+//            System.out.println("Selected Combo Item: "+selectedComboItem);
+//
+//            String clientSecret = setting.getClientSecretStr();
+//            System.out.println("Client Secret: "+clientSecret);
+
+
 
             // Implement your action logic here
             // e.g., get the current editor, caret position, etc.
-            Editor editor = e.getData(CommonDataKeys.EDITOR);
-            if (editor != null) {
-                // Perform actions on the editor content
-                Messages.showMessageDialog(editor.getProject(), "Hello from custom editor action!", "Custom Action", Messages.getInformationIcon());
-            }
+//            Editor editor = e.getData(CommonDataKeys.EDITOR);
+//            if (editor != null) {
+//                // Perform actions on the editor content
+//                Messages.showMessageDialog(editor.getProject(), "Hello from custom editor action!", "Custom Action", Messages.getInformationIcon());
+//            }
         }
 
         @Override
@@ -53,4 +98,6 @@ import com.intellij.psi.PsiFile;
             Editor editor = e.getData(CommonDataKeys.EDITOR);
             e.getPresentation().setEnabledAndVisible(editor != null);
         }
+
+
     }

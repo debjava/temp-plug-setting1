@@ -25,6 +25,15 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
 
+        <!--<toolWindow id="MyPluginConsole" anchor="bottom" icon="/path/to/your/icon.png"
+                    factoryClass="com.your.package.MyConsoleToolWindowFactory"/>-->
+
+        <toolWindow id="MyPluginConsole" anchor="bottom"
+                    factoryClass="com.ddlab.rnd.console.MyConsoleToolWindowFactory"/>
+
+        <toolWindow id="MyTabularView" anchor="right"
+                    factoryClass="com.ddlab.rnd.tool.view.ViewDataTooWindowFactory"/>
+
         <applicationService
                 serviceImplementation="com.ddlab.rnd.setting.MyPluginSettings"/>
 
@@ -46,6 +55,12 @@
                 class="com.ddlab.rnd.action.MyCustomEditorAction"
                 text="My Custom Editor Action"
                 description="Performs a custom action in the editor">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="MyPlugin.ShowDataAction"
+                class="com.ddlab.rnd.action.ShowDataAction"
+                text="Show Data Action"
+                description="Shows Snyk Data">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
     </actions>
