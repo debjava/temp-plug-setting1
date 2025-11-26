@@ -2,7 +2,6 @@ package com.ddlab.rnd.setting;
 
 import com.ddlab.rnd.group.panel.AiDetailsPanel;
 import com.ddlab.rnd.group.panel.SnykDetailsPanel;
-import com.ddlab.rnd.setting.ui.MySettingComponent;
 import com.ddlab.rnd.setting.ui.MySettingComponent1;
 import com.intellij.openapi.options.Configurable;
 import org.jetbrains.annotations.Nls;
@@ -33,69 +32,51 @@ public class MyPluginConfigurable implements Configurable {
 
     }
 
-    private JPanel createUIAndGetPanel() {
-//        component = new MySettingComponent();
-//        return component.getMainPanel();
-
-        component = new MySettingComponent1();
-        return component.getMainPanel();
-    }
-
     @Override
     public boolean isModified() {
         MyPluginSettings settings = MyPluginSettings.getInstance();
-
-        // For AI Panel
-        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
-
-
-        // For Snyk Panel
-        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
-
-
-        return !aiPanel.getClientIdTxt().equals(settings.getClientIdStr())
-
-//                || aiPanel.getLlmModelcomboBox().getSelectedItem().equals(settings.getLlmModelComboSelection())
-                || snykPanel.getSnykUriTxt().getText().equals(settings.getSnykUriTxt());
-//                || snykPanel.getOrgNameComboBox().getSelectedItem().equals(settings.getSnykOrgComboSelection());
-
-//        return true;
-
-//        return !component.getClientIdTxt().equals(settings.getClientIdStr())
-//                || !component.getClientSecretTxt().equals(settings.getClientSecretStr())
-//                || !component.getOauthEndPointTxt().equals(settings.getOauthEndPointUri())
-//                || !component.getLlmApiEndPointTxt().equals(settings.getLlmApiEndPointUri())
-//                || !component.getLlmModelComboBox().equals(settings.getComboSelection());
+        return isAiPanelModified(settings) || isSnykPanelModified(settings);
     }
 
     @Override
     public void apply() {
         MyPluginSettings settings = MyPluginSettings.getInstance();
 
-        // AI Part
-        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
-        settings.setClientIdStr(aiPanel.getClientIdTxt().getText());
+        saveAiPanelSetting(settings);
+        saveSnykPanelSetting(settings);
 
+//        // AI Part
+//        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+//        settings.setClientIdStr(aiPanel.getClientIdTxt().getText());
+//        settings.setClientSecretStr(aiPanel.getClientSecretTxt().getText());
+//        settings.setOauthEndPointUri(aiPanel.getOauthEndPointTxt().getText());
+//        settings.setLlmApiEndPointUri(aiPanel.getLlmApiEndPointTxt().getText());
+//
 //        JComboBox<String> llmModelComboBox = aiPanel.getLlmModelcomboBox();
 //        java.util.List<String> allLlmModelComboItems = getComboBoxItems(llmModelComboBox);
-//        if (!allLlmModelComboItems.isEmpty()) {
+////        if (!allLlmModelComboItems.isEmpty()) {
 //            settings.setLlmModelComboItems(allLlmModelComboItems);
 //            settings.setLlmModelComboSelection((String) llmModelComboBox.getSelectedItem());
-//        }
-
-
-        // Snyk Part
-        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
-        settings.setSnykUriTxt(snykPanel.getSnykUriTxt().getText());
-
+////        }
+//
+//
+//        // Snyk Part
+//        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+//        settings.setSnykUriTxt(snykPanel.getSnykUriTxt().getText());
+//        settings.setSnykTokentxt(snykPanel.getSnykTokentxt().getText());
+//
 //        JComboBox<String> snykOrgComboBox = snykPanel.getOrgNameComboBox();
 //        java.util.List<String> snykOrgComboItems = getComboBoxItems(snykOrgComboBox);
-//        if (!snykOrgComboItems.isEmpty()) {
+////        if (!snykOrgComboItems.isEmpty()) {
 //            settings.setSnykOrgComboItems(snykOrgComboItems);
 //            settings.setSnykOrgComboSelection((String) snykOrgComboBox.getSelectedItem());
-//        }
+////        }
 
 
+
+
+
+        // To be deleted later
 //        settings.setSnykOrgComboItems( (String) snykPanel.getOrgNameComboBox().getSelectedItem());
 //        JComboBox llmModelComboBox = component.getLlmModelComboBox();
 //
@@ -110,37 +91,58 @@ public class MyPluginConfigurable implements Configurable {
 
     }
 
+
+
+
+
     @Override
     public void reset() {
         MyPluginSettings settings = MyPluginSettings.getInstance();
 
-        // For AI
-        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
-        aiPanel.getClientIdTxt().setText(settings.getClientIdStr());
+        resetAiPanel(settings);
+        resetSnykPanel(settings);
 
-
+//        // For AI
+//        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+//        aiPanel.getClientIdTxt().setText(settings.getClientIdStr());
+//        aiPanel.getClientSecretTxt().setText(settings.getClientSecretStr());
+//        aiPanel.getOauthEndPointTxt().setText(settings.getOauthEndPointUri());
+//        aiPanel.getLlmApiEndPointTxt().setText(settings.getLlmApiEndPointUri());
+//
+//
 //        JComboBox<String> llmModelComboBox = aiPanel.getLlmModelcomboBox();
 //        java.util.List<String> llmModelComboItems = settings.getLlmModelComboItems();
-//        if(!llmModelComboItems.isEmpty()) {
+////        if(!llmModelComboItems.isEmpty()) {
+//        if(llmModelComboItems != null) {
 //            llmModelComboItems.forEach(value -> llmModelComboBox.addItem(value));
-//            llmModelComboBox.setSelectedItem(settings.getLlmModelComboSelection());
 //        }
-
-        // For Snyk
-        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
-        snykPanel.getSnykUriTxt().setText(settings.getSnykUriTxt());
-
+//
+////            for(String llmModelComboItem : llmModelComboItems) {
+////                llmModelComboItems.forEach(value -> llmModelComboBox.addItem(value));
+////            }
+//            llmModelComboBox.setSelectedItem(settings.getLlmModelComboSelection());
+////        }
+//
+//        // For Snyk
+//        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+//        snykPanel.getSnykUriTxt().setText(settings.getSnykUriTxt());
+//        snykPanel.getSnykTokentxt().setText(settings.getSnykTokentxt());
+//
 //        JComboBox<String> snykOrgNameComboBox = snykPanel.getOrgNameComboBox();
 //        java.util.List<String> snykOrgComboItems = settings.getSnykOrgComboItems();
-//        if(!snykOrgComboItems.isEmpty()) {
+////        System.out.println("snykOrgComboItems: "+snykOrgComboItems);
+////        if(!snykOrgComboItems.isEmpty()) {
 //            //        snykOrgNameComboBox.removeAllItems();
+//        if(snykOrgComboItems != null) {
 //            snykOrgComboItems.forEach(value -> snykOrgNameComboBox.addItem(value));
-//            snykOrgNameComboBox.setSelectedItem(settings.getSnykOrgComboSelection());
 //        }
+////            snykOrgComboItems.forEach(value -> snykOrgNameComboBox.addItem(value));
+//            snykOrgNameComboBox.setSelectedItem(settings.getSnykOrgComboSelection());
+////        }
 
 
 
-
+        // To be deleted later
 
 //        component.getClientIdTxt().setText(settings.getClientIdStr());
 //        component.getClientSecretTxt().setText(settings.getClientSecretStr());
@@ -155,7 +157,40 @@ public class MyPluginConfigurable implements Configurable {
 
     }
 
-    public static List<String> getComboBoxItems(JComboBox<String> comboBox) {
+    // ~~~~~~~~ private methods ~~~~~~~~
+
+    private JPanel createUIAndGetPanel() {
+        component = new MySettingComponent1();
+        return component.getMainPanel();
+    }
+
+    private void saveAiPanelSetting(MyPluginSettings settings) {
+        // AI Part
+        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+        settings.setClientIdStr(aiPanel.getClientIdTxt().getText());
+        settings.setClientSecretStr(aiPanel.getClientSecretTxt().getText());
+        settings.setOauthEndPointUri(aiPanel.getOauthEndPointTxt().getText());
+        settings.setLlmApiEndPointUri(aiPanel.getLlmApiEndPointTxt().getText());
+
+        JComboBox<String> llmModelComboBox = aiPanel.getLlmModelcomboBox();
+        java.util.List<String> allLlmModelComboItems = getComboBoxItems(llmModelComboBox);
+        settings.setLlmModelComboItems(allLlmModelComboItems);
+        settings.setLlmModelComboSelection((String) llmModelComboBox.getSelectedItem());
+    }
+
+    private void saveSnykPanelSetting(MyPluginSettings settings) {
+        // Snyk Part
+        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+        settings.setSnykUriTxt(snykPanel.getSnykUriTxt().getText());
+        settings.setSnykTokenTxt(snykPanel.getSnykTokentxt().getText());
+
+        JComboBox<String> snykOrgComboBox = snykPanel.getOrgNameComboBox();
+        java.util.List<String> snykOrgComboItems = getComboBoxItems(snykOrgComboBox);
+        settings.setSnykOrgComboItems(snykOrgComboItems);
+        settings.setSnykOrgComboSelection((String) snykOrgComboBox.getSelectedItem());
+    }
+
+    private static List<String> getComboBoxItems(JComboBox<String> comboBox) {
         ComboBoxModel<String> model = comboBox.getModel();
         List<String> items = new ArrayList<>();
 
@@ -163,6 +198,55 @@ public class MyPluginConfigurable implements Configurable {
             items.add(String.valueOf(model.getElementAt(i)));
         }
         return items;
+    }
+
+    private boolean isAiPanelModified(MyPluginSettings settings) {
+        // For AI Panel
+        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+
+        return !aiPanel.getClientIdTxt().getText().equals(settings.getClientIdStr())
+                || !aiPanel.getClientSecretTxt().getText().equals(settings.getClientSecretStr())
+                || !aiPanel.getOauthEndPointTxt().getText().equals(settings.getOauthEndPointUri())
+                || !aiPanel.getLlmApiEndPointTxt().getText().equals(settings.getLlmApiEndPointUri())
+                || !aiPanel.getLlmModelcomboBox().getSelectedItem().toString().equals(settings.getLlmModelComboSelection());
+    }
+
+    private boolean isSnykPanelModified(MyPluginSettings settings) {
+        // For Snyk Panel
+        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+        return !snykPanel.getSnykUriTxt().getText().equals(settings.getSnykUriTxt())
+                || !snykPanel.getSnykTokentxt().getText().equals(settings.getSnykTokenTxt())
+                || !snykPanel.getOrgNameComboBox().getSelectedItem().toString().equals(settings.getSnykOrgComboSelection());
+    }
+
+    private void resetAiPanel(MyPluginSettings settings) {
+        // For AI
+        AiDetailsPanel aiPanel = (AiDetailsPanel) component.getAiDetailsPanel();
+        aiPanel.getClientIdTxt().setText(settings.getClientIdStr());
+        aiPanel.getClientSecretTxt().setText(settings.getClientSecretStr());
+        aiPanel.getOauthEndPointTxt().setText(settings.getOauthEndPointUri());
+        aiPanel.getLlmApiEndPointTxt().setText(settings.getLlmApiEndPointUri());
+
+        JComboBox<String> llmModelComboBox = aiPanel.getLlmModelcomboBox();
+        java.util.List<String> llmModelComboItems = settings.getLlmModelComboItems();
+        if(llmModelComboItems != null) {
+            llmModelComboItems.forEach(value -> llmModelComboBox.addItem(value));
+        }
+        llmModelComboBox.setSelectedItem(settings.getLlmModelComboSelection());
+    }
+
+    private void resetSnykPanel(MyPluginSettings settings) {
+        // For Snyk
+        SnykDetailsPanel snykPanel = (SnykDetailsPanel) component.getSnykPanel();
+        snykPanel.getSnykUriTxt().setText(settings.getSnykUriTxt());
+        snykPanel.getSnykTokentxt().setText(settings.getSnykTokenTxt());
+
+        JComboBox<String> snykOrgNameComboBox = snykPanel.getOrgNameComboBox();
+        java.util.List<String> snykOrgComboItems = settings.getSnykOrgComboItems();
+        if(snykOrgComboItems != null) {
+            snykOrgComboItems.forEach(value -> snykOrgNameComboBox.addItem(value));
+        }
+        snykOrgNameComboBox.setSelectedItem(settings.getSnykOrgComboSelection());
     }
 
 //    @Override

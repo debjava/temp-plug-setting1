@@ -19,7 +19,7 @@ public class BasicUiUtil {
             System.out.println("Client Id is empty ..");
             Messages.showErrorDialog("Client Id cannot empty or blank", "Error title");
         }
-        java.util.List<String> comboItems = List.of("Option A", "Option B", "Option C");
+        java.util.List<String> comboItems = List.of("Option A", "Option B", "Option C","Option D","Option E");
         return comboItems;
     }
 

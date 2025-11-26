@@ -3,17 +3,14 @@ package com.ddlab.rnd.setting;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
-import com.intellij.util.xmlb.XmlSerializerUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedList;
-
 @State(
-        name = "MyPluginSettings",
-        storages = @Storage("MyPluginSettings.xml")
+        name = "MyPluginSettings2",
+        storages = @Storage("MyPluginSettings2.xml")
 )
 @Getter @Setter
 public class MyPluginSettings implements PersistentStateComponent<MyPluginSettings> {
@@ -27,8 +24,8 @@ public class MyPluginSettings implements PersistentStateComponent<MyPluginSettin
 
     // Snyk details
     private String snykUriTxt;
-    private String snykTokentxt;
-//    private java.util.List snykOrgComboItems = new LinkedList<>();
+    private String snykTokenTxt;
+    private java.util.List<String> snykOrgComboItems;
     private String snykOrgComboSelection;
 
 
@@ -57,9 +54,9 @@ public class MyPluginSettings implements PersistentStateComponent<MyPluginSettin
 
         // For Snyk
         this.snykUriTxt = state.snykUriTxt;
-        this.snykTokentxt = state.snykTokentxt;
-//        this.snykOrgComboItems = state.snykOrgComboItems;
-//        this.snykOrgComboSelection = state.snykOrgComboSelection;
+        this.snykTokenTxt = state.snykTokenTxt;
+        this.snykOrgComboItems = state.snykOrgComboItems;
+        this.snykOrgComboSelection = state.snykOrgComboSelection;
     }
 
 }
