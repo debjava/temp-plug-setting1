@@ -51,7 +51,8 @@
 
     </extensions>
     <actions>
-        <action id="MyPlugin.MyCustomEditorAction"
+
+        <!--<action id="MyPlugin.MyCustomEditorAction"
                 class="com.ddlab.rnd.action.MyCustomEditorAction"
                 text="My Custom Editor Action"
                 description="Performs a custom action in the editor">
@@ -62,7 +63,15 @@
                 text="Show Data Action"
                 description="Shows Snyk Data">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-        </action>
+        </action>-->
+
+        <group id="MyPlugin.SubMenu" text="My SubMenu" popup="true" >
+            <action id="MyPlugin.Action1" class="com.ddlab.rnd.action.MyCustomEditorAction" text="Update Dependencies"/>
+            <action id="MyPlugin.Action2" class="com.ddlab.rnd.action.ShowDataAction" text="Show Snyk Data Action"/>
+            <!--<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>-->
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </group>
+
     </actions>
 
 

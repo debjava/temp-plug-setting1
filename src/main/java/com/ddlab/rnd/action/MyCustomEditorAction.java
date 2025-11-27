@@ -10,14 +10,20 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 
+import java.util.List;
+
 // Example AnAction implementation
     public class MyCustomEditorAction extends AnAction {
+
+    private List<String> applicableFileTypes = List.of("pom.xml", "build.gradle", "package.json");
+
         @Override
         public void actionPerformed(AnActionEvent e) {
 
@@ -95,8 +101,19 @@ import com.intellij.ui.content.ContentManager;
         public void update(AnActionEvent e) {
             // Control visibility and enablement of the action
             // e.g., enable only if an editor is active
+//            VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
             Editor editor = e.getData(CommonDataKeys.EDITOR);
-            e.getPresentation().setEnabledAndVisible(editor != null);
+            String fileName = editor.getVirtualFile().getName();
+            System.out.println("Update File Name: "+fileName);
+            String fileType = editor.getVirtualFile().getFileType().getName();
+            System.out.println("Update File Type: "+fileType);
+
+            boolean isApplicableFileType = applicableFileTypes.contains(fileName);
+
+            e.getPresentation().setEnabled(isApplicableFileType);
+//            e.getPresentation().setEnabledAndVisible(isApplicableFileType);
+
+//            e.getPresentation().setEnabledAndVisible(editor != null);
         }
 
 
