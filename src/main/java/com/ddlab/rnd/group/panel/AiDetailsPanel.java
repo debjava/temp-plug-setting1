@@ -37,9 +37,9 @@ public class AiDetailsPanel extends JPanel {
 		
 		GridBagLayout gbl_aiDetailsPanel = new GridBagLayout();
 		gbl_aiDetailsPanel.columnWidths = new int[]{0, 0, 0};
-		gbl_aiDetailsPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_aiDetailsPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_aiDetailsPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_aiDetailsPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_aiDetailsPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gbl_aiDetailsPanel);
 		
 		JLabel clienIdLbl = new JLabel("Client Id:");

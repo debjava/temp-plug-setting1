@@ -65,12 +65,30 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>-->
 
-        <group id="MyPlugin.SubMenu" text="My SubMenu" popup="true" >
-            <action id="MyPlugin.Action1" class="com.ddlab.rnd.action.MyCustomEditorAction" text="Update Dependencies"/>
-            <action id="MyPlugin.Action2" class="com.ddlab.rnd.action.ShowDataAction" text="Show Snyk Data Action"/>
+        <group id="MyPlugin.SubMenu" text="My SubMenu"
+               popup="true" icon="/icons/double-arrow-16.png">
+            <action id="MyPlugin.Action1"
+                    class="com.ddlab.rnd.action.MyCustomEditorAction"
+                    text="Update Dependencies"
+                    icon="/icons/update-1-16.png"/>
+            <action id="MyPlugin.Action2"
+                    class="com.ddlab.rnd.action.ShowDataAction"
+                    text="Show Snyk Data Action"
+                    icon="/icons/snyk-1-16.png"/>
             <!--<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>-->
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </group>
+
+        <!--<group id="MyPlugin.SubMenu" text="My SubMenu"
+               popup="true">
+            <action id="MyPlugin.Action1"
+                    class="com.ddlab.rnd.action.MyCustomEditorAction"
+                    text="Update Dependencies"/>
+            <action id="MyPlugin.Action2"
+                    class="com.ddlab.rnd.action.ShowDataAction"
+                    text="Show Snyk Data Action"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </group>-->
 
     </actions>
 
